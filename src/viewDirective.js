@@ -1,7 +1,24 @@
-
+/**
+ * @ngdoc directive
+ * @name ui.router.state.diretive.ui-view
+ *
+ * @requires ui.router.state.$state
+ * @requires $compile
+ * @requires $controller
+ * @requires $injector
+ * @requires $anchorScroll
+ *
+ * @restrict ECA
+ *
+ * @description
+ * The ui-view directive tells $state where to place your templates. 
+ * A view can be unnamed or named.
+ *
+ * @param {string} ui-view A view name.
+ */
 $ViewDirective.$inject = ['$state', '$compile', '$controller', '$injector', '$anchorScroll'];
 function $ViewDirective(   $state,   $compile,   $controller,   $injector,   $anchorScroll) {
-  var $animator = $injector.has('$animator') ? $injector.get('$animator') : null;
+  var $animator = $injector.has('$animator') ? $injector.get('$animator') : false;
   var viewIsUpdating = false;
 
   var directive = {
@@ -14,7 +31,7 @@ function $ViewDirective(   $state,   $compile,   $controller,   $injector,   $an
         var viewScope, viewLocals,
             name = attr[directive.name] || attr.name || '',
             onloadExp = attr.onload || '',
-            animate = $animator!==null && $animator(scope, attr),
+            animate = $animator && $animator(scope, attr),
             initialView = transclude(scope);
 
         // Returns a set of DOM manipulation functions based on whether animation
